@@ -1,0 +1,243 @@
+<!-- #######  YAY, I AM THE SOURCE EDITOR! #########-->
+<h1><strong>Project 4:&nbsp;</strong>Facial Keypoint Detection with Neural Networks</h1>
+<p>In this project, we learn to use neaural networks to&nbsp;to automatically detect facial keypoints!</p>
+<h3>Part 1: Nose Tip Detection</h3>
+<p>I began by loading in images from&nbsp;the IMM Face Database. Below are sampled image from my custom dataloader visualized with ground-truth keypoints.</p>
+<table style="margin-left: auto; margin-right: auto;">
+<tbody>
+<tr>
+<td style="text-align: center;">
+<p><img src="outputs/nose_keypoint2.jpg" alt="sample nose 1" width="300" height="300" /></p>
+<p>Sample Image 1</p>
+</td>
+<td style="text-align: center;">
+<p><img src="outputs/nose_keypoint36.jpg" alt="sample nose 1" width="300" height="300" /></p>
+<p>Sample Image 2</p>
+</td>
+<td style="text-align: center;">
+<p><img src="outputs/nose_keypoint47.jpg" alt="sample nose 1" width="300" height="300" /></p>
+<p>Sample Image 3</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center;">&nbsp;</p>
+<p style="text-align: left;">My neural network was as follows:</p>
+<p style="text-align: left;">NoseNet(<br /> (conv1): Conv2d(1, 12, kernel_size=(7, 7), stride=(1, 1))<br /> (conv2): Conv2d(12, 16, kernel_size=(5, 5), stride=(1, 1))<br /> (conv3): Conv2d(16, 32, kernel_size=(3, 3), stride=(1, 1))<br /> (pool): MaxPool2d(kernel_size=3, stride=2, padding=0, dilation=1, ceil_mode=False)<br /> (fc1): Linear(in_features=576, out_features=200, bias=True)<br /> (fc2): Linear(in_features=200, out_features=2, bias=True)<br />)</p>
+<p style="text-align: left;">Here is my training and validation accuracy during the training process:</p>
+<table style="margin-left: auto; margin-right: auto;">
+<tbody>
+<tr>
+<td style="text-align: center;">
+<p><img src="outputs/training_loss_nose.jpg" alt="Training accuracy" width="300" height="300" /></p>
+<p>Training Accuracy</p>
+</td>
+<td style="text-align: center;">
+<p><img src="outputs/validation_loss_nose.jpg" alt="Training accuracy" width="300" height="300" /></p>
+<p>Validation Accuracy</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: left;"><strong>&nbsp;</strong></p>
+<p>Here are my results:</p>
+<table style="margin-left: auto; margin-right: auto;">
+<tbody>
+<tr>
+<td style="text-align: center;">
+<p><img src="outputs/nose_predictions/nose_41.jpg" alt="Nose Correctly Detected" width="300" height="300" /></p>
+<p>Nose Correctly Detected</p>
+</td>
+<td style="text-align: center;">
+<p><img src="outputs/nose_predictions/nose_30.jpg" alt="Nose Correctly Detected" width="300" height="300" /></p>
+<p>Nose Correctly Detected</p>
+</td>
+</tr>
+</tbody>
+</table>
+<table style="margin-left: auto; margin-right: auto;">
+<tbody>
+<tr>
+<td style="text-align: center;">
+<p><img src="outputs/nose_predictions/nose_12.jpg" alt="Nose Correctly Detected" width="300" height="300" /></p>
+<p>Nose Not Correctly Detected</p>
+</td>
+<td style="text-align: center;">
+<p><img src="outputs/nose_predictions/nose_21.jpg" alt="Nose Correctly Detected" width="300" height="300" /></p>
+<p>Nose Not Correctly Detected</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>I think the neural netwok failed in these cases because my training sample was just too small. Perhaps it was the constrast, facial oritentation, or saturation of the photo.</p>
+<h3>Part 2: Full Facial Keypoint Detection</h3>
+<p>I followed a similar structure for this portion &nbsp;of the project as well. To prevent the trained model from overfitting, I augmented the data by rotating the image by random angle between (-10, 10) degrees as well as by randoming chaing the images' brightness, hue, saturation, and contrast. Here are sampled image from your dataloader visualized with ground-truth keypoints.</p>
+<table>
+<tbody>
+<tr>
+<td style="text-align: center;">
+<p><img src="outputs/face_keypoint2.jpg" alt="sample nose 1" width="300" height="300" /></p>
+<p>Sample Image 1</p>
+</td>
+<td style="text-align: center;">
+<p><img src="outputs/face_keypoint36.jpg" alt="sample nose 1" width="300" height="300" /></p>
+<p>Sample Image 2</p>
+</td>
+<td style="text-align: center;">
+<p><img src="outputs/face_keypoint47.jpg" alt="sample nose 1" width="300" height="300" /></p>
+<p>Sample Image 3</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p>My neural network was a follows:</p>
+<p>FaceNet(<br /> (conv1): Conv2d(1, 4, kernel_size=(7, 7), stride=(1, 1))<br /> (conv2): Conv2d(4, 8, kernel_size=(5, 5), stride=(1, 1))<br /> (conv3): Conv2d(8, 16, kernel_size=(3, 3), stride=(1, 1))<br /> (conv4): Conv2d(16, 32, kernel_size=(3, 3), stride=(1, 1))<br /> (conv5): Conv2d(32, 56, kernel_size=(3, 3), stride=(1, 1))<br /> (pool): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)<br /> (fc1): Linear(in_features=840, out_features=420, bias=True)<br /> (fc2): Linear(in_features=420, out_features=112, bias=True)<br />)</p>
+<p>As for hyperparamters, I used a batch size of 1 and learning of 0.0001. I used the Adam Optimizer and MSE for loss.</p>
+<p>&nbsp;</p>
+<p>Here is my training and validation accuracy during the training process:</p>
+<table style="margin-left: auto; margin-right: auto;">
+<tbody>
+<tr>
+<td style="text-align: center;">
+<p><img src="outputs/training_loss_face.jpg" alt="Training accuracy" width="300" height="300" /></p>
+<p>Training Accuracy</p>
+</td>
+<td style="text-align: center;">
+<p><img src="outputs/validation_loss_face.jpg" alt="Training accuracy" width="300" height="300" /></p>
+<p>Validation Accuracy</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>Here are my results:</p>
+<table style="margin-left: auto; margin-right: auto;">
+<tbody>
+<tr>
+<td>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="outputs/face_predictions/face_33.jpg" alt="Nose Correctly Detected" width="300" height="300" /></p>
+<p style="text-align: center;">Face Correctly Detected</p>
+</td>
+<td style="text-align: center;">
+<p><img src="outputs/face_predictions/face_34.jpg" alt="Nose Correctly Detected" width="300" height="300" /></p>
+<p>Face Correctly Detected</p>
+</td>
+</tr>
+</tbody>
+</table>
+<table style="margin-left: auto; margin-right: auto;">
+<tbody>
+<tr>
+<td style="text-align: center;">
+<p><img src="outputs/face_predictions/face_22.jpg" alt="Nose Correctly Detected" width="300" height="300" /></p>
+<p>Face Not Correctly Detected</p>
+</td>
+<td style="text-align: center;">
+<p><img src="outputs/face_predictions/face_7.jpg" alt="Nose Correctly Detected" width="300" height="300" /></p>
+<p>Face Not Correctly Detected</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p>Again, I think this dataset was rather small to train which can contribute the wrong detections. The missed detections could from exposure, or some other image attribute, being too dramatic or lack there of, cause the image to be an outlier and thus making the neural network less keen to it.</p>
+<p>Here is a visualiztion of my learned filters:</p>
+<table style="margin-left: auto; margin-right: auto;">
+  <table style="margin-left: auto; margin-right: auto;">
+  <tbody>
+  <tr>
+  <td style="text-align: center;">
+  <p><img src="outputs/face_conv1.jpg" alt="sample nose 1" width="300" height="100" /></p>
+  <p>1st Convolutional Layer</p>
+  </td>
+  <td style="text-align: center;">
+  <p><img src="outputs/face_conv2.jpg" alt="sample nose 1" width="300" height="600" /></p>
+  <p>2nd Convolutional Layer</p>
+  </td>
+  <td style="text-align: center;">
+  <p><img src="outputs/face_conv3.jpg" alt="sample nose 1" width="300" height="900" /></p>
+  <p>3rd Convolutional Layer</p>
+  </td>
+  </tr>
+  </tbody>
+  </table>
+<h3>Part 3: Large Dataset</h3>
+<p>For this part, I utilized a google colab in addition to a GPU. I sampled images from the 'ibug face in the wild dataset'. I augmented the data for this section as well, again rotating the image and randomly changing image attributes. Below are sampled image from my custom dataloader visualized with ground-truth keypoints.</p>
+<table style="margin-left: auto; margin-right: auto;">
+<tbody>
+<tr>
+<td style="text-align: center;">
+<p><img src="outputs/part3/big_face_keypoint126.jpg" alt="sample nose 1" width="300" height="300" /></p>
+<p>Sample Image 1</p>
+</td>
+<td style="text-align: center;">
+<p><img src="outputs/part3/big_face_keypoint789.jpg" alt="sample nose 1" width="300" height="300" /></p>
+<p>Sample Image 2</p>
+</td>
+<td style="text-align: center;">
+<p><img src="outputs/part3/big_face_keypoint5678.jpg" alt="sample nose 1" width="300" height="300" /></p>
+<p>Sample Image 3</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: center;">&nbsp;</p>
+<p style="text-align: left;">My neural network is the ResNet18 which is predefined PyTorch models. I made two modifications inclusing making the first layer input channel to 1 for as the inputs are grayscale images. I also made last layer's output channel number be 68 * 2 = 136.
+I choose learning rate to  lr = 0.001, as used a batch size of 1. I used the same optimizer and loss function as peviously described</p>
+<p style="text-align: left;">Here is my training and validation accuracy during the training process:</p>
+<table style="margin-left: auto; margin-right: auto;">
+<tbody>
+<tr>
+<td style="text-align: center;">
+<p><img src="outputs/part3/training_loss.jpg" alt="Training accuracy" width="300" height="300" /></p>
+<p>Training Accuracy</p>
+</td>
+<td style="text-align: center;">
+<p><img src="outputs/part3/validation_loss.jpg" alt="Training accuracy" width="300" height="300" /></p>
+<p>Validation Accuracy</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p style="text-align: left;"><strong>&nbsp;</strong></p>
+<p>After training the data set, I found the the Mean Squared Error on the whole testing data set to be 15.96319</p>
+<p>Here are my results on the testing dataset:</p>
+<table style="margin-left: auto; margin-right: auto;">
+<tbody>
+<tr>
+<td style="text-align: center;">
+<p><img src="outputs/part3/big_test20.jpg" alt="Nose Correctly Detected" width="300" height="300" /></p>
+<p>Face Detection</p>
+</td>
+<td style="text-align: center;">
+<p><img src="outputs/part3/big_test7.jpg" alt="Nose Correctly Detected" width="300" height="300" /></p>
+<p>Face Detection</p>
+</td>
+<td style="text-align: center;">
+<p><img src="outputs/part3/big_test13.jpg" alt="Nose Correctly Detected" width="300" height="300" /></p>
+<p>Face Not Detection</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>I then tested my model on 3 personal images. I got them mostly right, the offset is most likely due to either a not perfect model, or variations in my cropping when passing the images through the neural net.</p>
+<table>
+<tbody>
+<tr>
+<td style="text-align: center;">
+<p><img src="outputs/part3/morgan1result.jpg" alt="Nose Correctly Detected" width="300" height="200" /></p>
+<p>Face Detection</p>
+</td>
+<td style="text-align: center;">
+<p><img src="outputs/part3/testresult.jpg" alt="Nose Correctly Detected" width="300" height="200" /></p>
+<p>Face Detection</p>
+</td>
+<td style="text-align: center;">
+<p><img src="outputs/part3/face2result.jpg" alt="Nose Correctly Detected" width="300" height="200" /></p>
+<p>Face Detection</p>
+</td>
+</tr>
+</tbody>
+</table>
