@@ -1,6 +1,6 @@
 # Overview
 
-This repo that contains projects I either did alone or contributed heavily. Each project is within it's respective folder. For specific project code email morgan.nanez@gmail.com.
+This repo that contains projects I either did alone or contributed heavily. Each project is within it's respective folder. For specific project code email morgan.nanez@gmail.com. The projects span my undergraduate time a Berkeley and my time as a Master's at Princeton
 
 ## Repository Structure
 
