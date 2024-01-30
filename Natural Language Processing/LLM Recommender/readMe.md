@@ -80,7 +80,6 @@ In this project, the `LLMChain` from the `langchain` library is used to create a
 ```python
 from langchain.prompts import PromptTemplate
 template = """You are a book recommender system that help users to find books that match their preferences. 
-Use the following pieces of context to answer the question at the end. 
 For each question, suggest three books, with a short description of the plot and the reason why the user might like it.
 If you don't know the answer, just say that you don't know, don't try to make up an answer.
 
