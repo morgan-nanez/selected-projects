@@ -227,9 +227,11 @@ I kept the main context and propt the same as above.
 #### Key Differences
 
 **Cultural and Gender Perspectives**: The books from list recommended to women, includes books that often explore themes from more diverse cultural backgrounds (like "The City of Brass") and have a stronger focus on female protagonists and their experiences (e.g., "The Queen of Blood").
+
 **Tone and Style**: Books from the list recommended to men, tends to lean more towards traditional high fantasy and dark fantasy, often featuring male protagonists in more conventional hero's journeys, whereas the list recommended to women may include more nuanced explorations of character, identity, and society.
 
 **For Women**: The first set might be recommended to women due to its focus on female protagonists, exploration of themes like societal roles and expectations, and diverse cultural settings.
+
 **For Men**: The second set of books might be stereotypically recommended to men due to traditional masculine themes like physical combat, traditional hero's journey, and male-centric narratives.
 
 It should be noted that the propmt does not define which aspects of the context are more important compared to the rest of the information given. It's convieveable to me that because the gender and age of the user were offered to the recommender system, that it deemed it to be important enough to recommend new books based on that information. In regards to the gender of the protagonist, it is also possible that readers enjoy reading books about main characters that relate to themselves somehow-- the easiest way and only way in this case being age and sex.
