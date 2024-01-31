@@ -4,7 +4,7 @@
 This project develops a sophisticated Book Recommender System leveraging OpenAI's language models and the LangChain library. It's designed to suggest books based on user preferences, utilizing advanced natural language processing techniques.
 
 
-## Data Acquisition
+## Data Acquisition and Preproccessing 
 The heart of the system lies in its dataset:
 
 ```python
@@ -14,18 +14,13 @@ import numpy as np
 # Loading the dataset
 books = pd.read_csv('data/BooksDatasetClean.csv')
 ```
-This dataset, ideally sourced from a comprehensive collection like Kaggle, includes critical information such as titles, authors, descriptions, categories, and publication details.
-
-
-
-## Data Preprocessing
 The dataset I used for this project, from Kaggle, titled "Books Dataset" by Elvin Rustam, is a comprehensive collection of books, encompassing various details such as titles, authors, descriptions, categories, publishers, prices, and publication dates. The dataset is extensive, covering a broad spectrum of literature, making it a valuable resource for projects involving book recommendations, literary analysis, or data-driven studies in publishing trends (https://www.kaggle.com/datasets/elvinrustam/books-dataset?resource=download)
 
 The data is already cleaned to eliminate symbols and have uniform capitalization. Additonally, I got rid of all books with no descriptions. This left me with roughly 70,000 books to train on.
 
 ![Sample Data](markdown_photos/sample_data.png)
 
-In order to simply the data for embeddings later on, I combine all Title, Author, Description, and Category, into one column for simplicity and efficiency.
+In order to simplify the data for embeddings later on, I combined Title, Author, Description, and Category, into one column for simplicity and efficiency.
 
 ![Sample Data](markdown_photos/all_text_data.png)
 
@@ -116,7 +111,7 @@ qa = RetrievalQA.from_chain_type(llm=llm,
 `docsearch.as_retriever()` converts the docsearch instance into a format that the RetrievalQA system can use as a retriever. This allows RetrievalQA to query docsearch for relevant documents based on the input question.
 
 When a query is made, RetrievalQA uses the retriever to find documents related to the query's topic.
-It then uses the language model (llm) to process these documents and the query to generate a coherent and contextually relevant answer.
+It then uses the language model (gpt-3.5-turbo-instruct) to process these documents and the query to generate a coherent and contextually relevant answer.
 
 The choice of `OpenAI` integration allows for the leveraging of GPT-3's deep understanding of language nuances, enabling the system to generate personalized book suggestions based on a user's query, as seen here:
 
@@ -129,6 +124,7 @@ This implementation details why `langchain` and `OpenAI` were chosen—maximizin
 
 ## Experiment 1: Basic Query
 
+The goal with this prompt was to coax the model to output Twilight.
 **Prompt 1**: "Can you recommend a book about a girl who falls in love with a vampire?"
 
 **Results 1**:
@@ -141,7 +137,7 @@ This implementation details why `langchain` and `OpenAI` were chosen—maximizin
 
 
 
-
+The goal with this propt was to coax the model to output something along the lines of "Hunger Games" and other books from that genre
 **Prompt 2**: "can you recommend books about utopian usurps from young adults who try to change the world for the better and fight?"
 
 **Results 2**:
@@ -154,7 +150,7 @@ This implementation details why `langchain` and `OpenAI` were chosen—maximizin
 
 
 
-
+This prompt, which will be used in the following experiment, highlights what is shown with little user context. When asked for a political fiction book, I expect it to return something similar to "West Wing" or "House of Cards". Political, in this sense, is focusing on the imperial or western politics, which is expected.
 **Prompt 3**: "Can you recommend a fiction book about politics?"
 
 **Results 3**:
@@ -184,7 +180,7 @@ Question: {question}
 Your response: """
 ```
 
-For this experiment, we will use the same query as before, but provide context about the user's reading preferences. I made the preferences such that more fantastical political books would be recommended.
+For this experiment, we will use the same query as before, but provide context about the user's reading preferences. I made the preferences such that more fantastical political books would be recommended. The aim with this additional context is to highlight how books recommendations will change given extra info about what the user perfers.
 
 **Context**: "I am particularly drawn to dark fantasy themes that intertwine different mythical creatures, similar to Game of Thrones.
 I would also like these stories to include elements such as dragons, faeries, wizards, elves, kings, and queens.
@@ -199,12 +195,12 @@ I prefer to avoid narratives centered on space travel and those featuring teenag
 | The Lies of Locke Lamora | Scott Lynch     | Chronicles the adventures of a group of thieves and con artists in a fantasy world. Combining elements of dark fantasy, intricate world-building, and political intrigue, this novel is well-suited for readers who enjoy tales of cunning and deception in a fantastical setting.                                                                                                                                                        |
 
 
-As you can see, I achieved in getting more mythical political books.
+Previously, I was recommended books that were more conventially percieved as "political", such as "West Wing". After clarifying that the user typically enjoys more fantastical books, with creatures such as dragons, the model adjusted its search as expected. As you can see, I achieved in getting more mythical political books.
 
 ## Experiment 2A: User Demographics (A BRIEF Study on Ethical Prompts)
-When developing a recommender system. It is important to me to not push problamatic tropes and stereotypes. In this extention of the previous experiment, I explore what happens when I include user demographic, such age and sex, into the prompt. 
+When developing a recommender system. It is important to me to not push problamatic tropes and stereotypes. In this extension of the previous experiment, I explore what happens when I include user demographic, such age and sex, into the prompt. 
 
-I kept the main context and propt the same as above.
+I kept the main context and prompt the exact same as above and added only one additional line which is the **Extended Context** you see below.
 
 **Extended Context 1**: "I am a 25 year old woman"
 **Results**:
@@ -228,7 +224,7 @@ I kept the main context and propt the same as above.
 
 **Cultural and Gender Perspectives**: The books from list recommended to women, includes books that often explore themes from more diverse cultural backgrounds (like "The City of Brass") and have a stronger focus on female protagonists and their experiences (e.g., "The Queen of Blood").
 
-**Tone and Style**: Books from the list recommended to men, tends to lean more towards traditional high fantasy and dark fantasy, often featuring male protagonists in more conventional hero's journeys, whereas the list recommended to women may include more nuanced explorations of character, identity, and society.
+**Tone and Style**: Books from the list recommended to men, tend to lean more towards traditional high fantasy and dark fantasy, often, but not always, featuring male protagonists in more conventional hero's journeys, whereas the list recommended to women may include more nuanced explorations of character, identity, and society.
 
 **For Women**: The first set might be recommended to women due to its focus on female protagonists, exploration of themes like societal roles and expectations, and diverse cultural settings.
 
