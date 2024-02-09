@@ -6,7 +6,7 @@ In this project, I use PyTorch to implement a sequence to sequence (Seq2Seq) net
 
 Here is an example of our working data. The source language is French, while the target language is English
 
-![](outputs/example_input)
+![](outputs/example_input.png)
 
 ### Data Preprocessing 
 
